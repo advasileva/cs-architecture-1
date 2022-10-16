@@ -1,0 +1,12 @@
+#!/bin/bash
+gcc ./main.s -o ./main.exe
+
+max=2
+for i in `seq 1 $max`
+do
+    echo "Test $i"
+    ./main.exe < tests/test$i.in
+    echo 
+    cat tests/test$i.out
+    echo -e '\n'
+done
