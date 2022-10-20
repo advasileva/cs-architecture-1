@@ -1,11 +1,10 @@
 #!/bin/bash
-gcc ./main.s ./form_array.s -o ./main.exe
 
 max=3
 for i in `seq 1 $max`
 do
     echo "Test $i"
-    ./main.exe 0 tests/test$i.in output
+    ./c.exe 0 tests/test$i.in output
     echo
     diff output tests/test$i.out
     echo
