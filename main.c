@@ -2,12 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-const int COUNT = 100;
-
-int64_t timeDelta(
-    struct timespec finish,
-    struct timespec start
-)
+int64_t timeDelta(struct timespec finish, struct timespec start)
 {
     int64_t nsecStart, nsecFinish;
 
@@ -26,6 +21,7 @@ int64_t timeDelta(
 extern void form_array(int n, int *A, int *B);
 
 int main(int argc, char** argv) {
+    int count = 100;
     int n;
     int i;
     struct timespec start;
@@ -59,7 +55,7 @@ int main(int argc, char** argv) {
 
     clock_gettime(CLOCK_MONOTONIC, &start);
 
-    for(i = 0; i < COUNT; i++) {
+    for(i = 0; i < count; i++) {
         form_array(n, A, B);
     }
 

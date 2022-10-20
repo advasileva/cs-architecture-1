@@ -1,14 +1,6 @@
 	.file	"main.c"
 	.intel_syntax noprefix
 	.text
-	.globl	COUNT
-	.section	.rodata
-	.align 4
-	.type	COUNT, @object
-	.size	COUNT, 4
-COUNT:
-	.long	100
-	.text
 	.globl	timeDelta
 	.type	timeDelta, @function
 timeDelta:
@@ -66,6 +58,7 @@ main:
 	sub	rsp, 112
 	mov	DWORD PTR -100[rbp], edi
 	mov	QWORD PTR -112[rbp], rsi
+	mov	DWORD PTR -28[rbp], 100
 	mov	rax, QWORD PTR -112[rbp]
 	add	rax, 8
 	mov	rax, QWORD PTR [rax]
@@ -87,7 +80,7 @@ main:
 	mov	rdi, rax
 	call	fopen@PLT
 	mov	QWORD PTR -24[rbp], rax
-	lea	rdx, -52[rbp]
+	lea	rdx, -60[rbp]
 	mov	rax, QWORD PTR -16[rbp]
 	lea	rsi, .LC2[rip]
 	mov	rdi, rax
@@ -108,20 +101,20 @@ main:
 	mov	rax, QWORD PTR [rax]
 	mov	rdi, rax
 	call	atoi@PLT
-	mov	DWORD PTR -52[rbp], eax
+	mov	DWORD PTR -60[rbp], eax
 .L5:
-	mov	eax, DWORD PTR -52[rbp]
-	cdqe
-	sal	rax, 2
-	mov	rdi, rax
-	call	malloc@PLT
-	mov	QWORD PTR -32[rbp], rax
-	mov	eax, DWORD PTR -52[rbp]
+	mov	eax, DWORD PTR -60[rbp]
 	cdqe
 	sal	rax, 2
 	mov	rdi, rax
 	call	malloc@PLT
 	mov	QWORD PTR -40[rbp], rax
+	mov	eax, DWORD PTR -60[rbp]
+	cdqe
+	sal	rax, 2
+	mov	rdi, rax
+	call	malloc@PLT
+	mov	QWORD PTR -48[rbp], rax
 	mov	rax, QWORD PTR -112[rbp]
 	add	rax, 8
 	mov	rax, QWORD PTR [rax]
@@ -135,7 +128,7 @@ main:
 	mov	eax, DWORD PTR -4[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*4]
-	mov	rax, QWORD PTR -32[rbp]
+	mov	rax, QWORD PTR -40[rbp]
 	add	rdx, rax
 	mov	rax, QWORD PTR -16[rbp]
 	lea	rsi, .LC2[rip]
@@ -144,7 +137,7 @@ main:
 	call	__isoc99_fscanf@PLT
 	add	DWORD PTR -4[rbp], 1
 .L7:
-	mov	eax, DWORD PTR -52[rbp]
+	mov	eax, DWORD PTR -60[rbp]
 	cmp	DWORD PTR -4[rbp], eax
 	jl	.L8
 	jmp	.L9
@@ -166,14 +159,14 @@ main:
 	mov	eax, DWORD PTR -4[rbp]
 	cdqe
 	lea	rcx, 0[0+rax*4]
-	mov	rax, QWORD PTR -32[rbp]
+	mov	rax, QWORD PTR -40[rbp]
 	add	rax, rcx
 	sub	edx, 100
 	mov	DWORD PTR [rax], edx
 	mov	eax, DWORD PTR -4[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*4]
-	mov	rax, QWORD PTR -32[rbp]
+	mov	rax, QWORD PTR -40[rbp]
 	add	rax, rdx
 	mov	edx, DWORD PTR [rax]
 	mov	rax, QWORD PTR -16[rbp]
@@ -183,7 +176,7 @@ main:
 	call	fprintf@PLT
 	add	DWORD PTR -4[rbp], 1
 .L10:
-	mov	eax, DWORD PTR -52[rbp]
+	mov	eax, DWORD PTR -60[rbp]
 	cmp	DWORD PTR -4[rbp], eax
 	jl	.L11
 .L9:
@@ -194,16 +187,16 @@ main:
 	mov	DWORD PTR -4[rbp], 0
 	jmp	.L12
 .L13:
-	mov	eax, DWORD PTR -52[rbp]
-	mov	rdx, QWORD PTR -40[rbp]
-	mov	rcx, QWORD PTR -32[rbp]
+	mov	eax, DWORD PTR -60[rbp]
+	mov	rdx, QWORD PTR -48[rbp]
+	mov	rcx, QWORD PTR -40[rbp]
 	mov	rsi, rcx
 	mov	edi, eax
 	call	form_array@PLT
 	add	DWORD PTR -4[rbp], 1
 .L12:
-	mov	eax, 100
-	cmp	DWORD PTR -4[rbp], eax
+	mov	eax, DWORD PTR -4[rbp]
+	cmp	eax, DWORD PTR -28[rbp]
 	jl	.L13
 	lea	rax, -96[rbp]
 	mov	rsi, rax
@@ -216,8 +209,8 @@ main:
 	mov	rcx, rdx
 	mov	rdx, rax
 	call	timeDelta
-	mov	QWORD PTR -48[rbp], rax
-	mov	rax, QWORD PTR -48[rbp]
+	mov	QWORD PTR -56[rbp], rax
+	mov	rax, QWORD PTR -56[rbp]
 	mov	rsi, rax
 	lea	rdi, .LC6[rip]
 	mov	eax, 0
@@ -228,7 +221,7 @@ main:
 	mov	eax, DWORD PTR -4[rbp]
 	cdqe
 	lea	rdx, 0[0+rax*4]
-	mov	rax, QWORD PTR -40[rbp]
+	mov	rax, QWORD PTR -48[rbp]
 	add	rax, rdx
 	mov	edx, DWORD PTR [rax]
 	mov	rax, QWORD PTR -24[rbp]
@@ -238,7 +231,7 @@ main:
 	call	fprintf@PLT
 	add	DWORD PTR -4[rbp], 1
 .L14:
-	mov	eax, DWORD PTR -52[rbp]
+	mov	eax, DWORD PTR -60[rbp]
 	cmp	DWORD PTR -4[rbp], eax
 	jl	.L15
 	mov	eax, 0
