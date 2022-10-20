@@ -58,7 +58,7 @@ main:
 	sub	rsp, 112
 	mov	DWORD PTR -100[rbp], edi
 	mov	QWORD PTR -112[rbp], rsi
-	mov	DWORD PTR -28[rbp], 100000
+	mov	DWORD PTR -28[rbp], 10000
 	mov	rax, QWORD PTR -112[rbp]
 	add	rax, 8
 	mov	rax, QWORD PTR [rax]

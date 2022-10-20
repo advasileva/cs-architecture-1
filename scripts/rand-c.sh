@@ -1,4 +1,4 @@
 #!/bin/bash
 
-echo "Random test"
+echo "Random C"
 ./c.exe 1 $1
