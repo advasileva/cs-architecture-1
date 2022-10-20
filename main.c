@@ -21,7 +21,7 @@ int64_t timeDelta(struct timespec finish, struct timespec start)
 extern void form_array(int n, int *A, int *B);
 
 int main(int argc, char** argv) {
-    int count = 10000;
+    int count = 1000000;
     int n;
     int i;
     struct timespec start;
