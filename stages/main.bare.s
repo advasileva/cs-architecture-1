@@ -1,5 +1,6 @@
+	.file	"main.c"
 	.intel_syntax noprefix
-	.text							# начало секции
+	.text
 	.globl	timeDelta
 	.type	timeDelta, @function
 timeDelta:
@@ -33,29 +34,30 @@ timeDelta:
 	pop	rbp
 	ret
 	.size	timeDelta, .-timeDelta
-	.section	.rodata				# .rodata
+	.section	.rodata
 .LC0:
-	.string	"r"						# строковая константа для флага открытия файла на чтение
+	.string	"r"
 .LC1:
-	.string	"w"						# строковая константа для флага открытия файла на запись
+	.string	"w"
 .LC2:
-	.string	"%d"					# строковая константа для формата ввода
+	.string	"%d"
 .LC3:
-	.string	"input"					# строковая константа для названия дефолтного входного файла
+	.string	"input"
 .LC4:
-	.string	"output"				# строковая константа для названия дефолтного выходного файла
+	.string	"output"
 .LC5:
-	.string	"%d "					# строковая константа для формата вывода
+	.string	"%d "
 .LC6:
-	.string	"Time delta: %ld ns\n"	# строковая константа для формата вывода результата замера времени
-	.text							# начало секции
-	.globl	main					# секция с кодом
+	.string	"Time delta: %ld ns\n"
+	.text
+	.globl	main
+	.type	main, @function
 main:
-	push	rbp						# сохраняем rbp на стек
-	mov	rbp, rsp					# сохраняем rsp в rbp
+	push	rbp
+	mov	rbp, rsp
 	sub	rsp, 112
-	mov	DWORD PTR -100[rbp], edi	# rdi - argc (4 byte)
-	mov	QWORD PTR -112[rbp], rsi	# rsi - argv (8 byte)
+	mov	DWORD PTR -100[rbp], edi
+	mov	QWORD PTR -112[rbp], rsi
 	mov	DWORD PTR -28[rbp], 10000
 	mov	rax, QWORD PTR -112[rbp]
 	add	rax, 8
@@ -102,11 +104,13 @@ main:
 	mov	DWORD PTR -60[rbp], eax
 .L5:
 	mov	eax, DWORD PTR -60[rbp]
+	cdqe
 	sal	rax, 2
 	mov	rdi, rax
 	call	malloc@PLT
 	mov	QWORD PTR -40[rbp], rax
 	mov	eax, DWORD PTR -60[rbp]
+	cdqe
 	sal	rax, 2
 	mov	rdi, rax
 	call	malloc@PLT
@@ -122,6 +126,7 @@ main:
 	jmp	.L7
 .L8:
 	mov	eax, DWORD PTR -4[rbp]
+	cdqe
 	lea	rdx, 0[0+rax*4]
 	mov	rax, QWORD PTR -40[rbp]
 	add	rdx, rax
@@ -152,12 +157,14 @@ main:
 	sub	eax, ecx
 	mov	edx, eax
 	mov	eax, DWORD PTR -4[rbp]
+	cdqe
 	lea	rcx, 0[0+rax*4]
 	mov	rax, QWORD PTR -40[rbp]
 	add	rax, rcx
 	sub	edx, 100
 	mov	DWORD PTR [rax], edx
 	mov	eax, DWORD PTR -4[rbp]
+	cdqe
 	lea	rdx, 0[0+rax*4]
 	mov	rax, QWORD PTR -40[rbp]
 	add	rax, rdx
@@ -212,6 +219,7 @@ main:
 	jmp	.L14
 .L15:
 	mov	eax, DWORD PTR -4[rbp]
+	cdqe
 	lea	rdx, 0[0+rax*4]
 	mov	rax, QWORD PTR -48[rbp]
 	add	rax, rdx
@@ -227,6 +235,8 @@ main:
 	cmp	DWORD PTR -4[rbp], eax
 	jl	.L15
 	mov	eax, 0
-	leave						# / эпилог
-	ret							# \ выход из функции
+	leave
+	ret
 	.size	main, .-main
+	.ident	"GCC: (GNU) 10.3.1 20210703 (ALT Sisyphus 10.3.1-alt2)"
+	.section	.note.GNU-stack,"",@progbits
