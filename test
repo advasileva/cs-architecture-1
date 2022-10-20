@@ -1,12 +1,15 @@
 #!/bin/bash
-gcc ./main.s -o ./main.exe
+gcc ./main.s ./form_array.s -o ./main.exe
 
 max=2
 for i in `seq 1 $max`
 do
     echo "Test $i"
-    ./main.exe < tests/test$i.in
-    echo 
+    ./main.exe 0 tests/test$i.in output
     cat tests/test$i.out
-    echo -e '\n'
+    echo
+    cat output
+    echo
+    diff output tests/test$i.out
+    echo
 done

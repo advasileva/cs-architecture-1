@@ -1,0 +1,5 @@
+#!/bin/bash
+gcc ./main.s ./form_array.s -o ./main.exe
+
+echo "Random test"
+./main.exe 1 $1
