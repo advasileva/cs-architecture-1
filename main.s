@@ -109,7 +109,8 @@ main:								# метка функции "main"
 .L8:								# метка ".L8" - тело цикла ввода значений массива A из файла
 	mov	eax, DWORD PTR -4[rbp]		# получаем итератор цикла i
 	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
-	add	rdx, QWORD PTR -40[rbp] 	# получаем A[i]
+	mov	rax, QWORD PTR -40[rbp]		# получаем A
+	add	rdx, rax					# получаем A[i]
 	mov	rdi, QWORD PTR -16[rbp]		# получаем input
 	lea	rsi, .LC2[rip]				# загружаем строку "%d"
 	call	__isoc99_fscanf@PLT		# вызов fscanf()
@@ -142,7 +143,9 @@ main:								# метка функции "main"
 	mov	DWORD PTR [rax], edx		# сохраняем резуьтат в A[i]
 	mov	eax, DWORD PTR -4[rbp]		# получаем значение итератора
 	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
-	add	rdx, QWORD PTR -40[rbp] 	# получаем A[i]
+	mov	rax, QWORD PTR -40[rbp]		# получаем A
+	add	rax, rdx					# получаем A[i]
+	mov	edx, DWORD PTR [rax]		# записываем значение в edx
 	mov	rdi, QWORD PTR -16[rbp]		# получаем input 
 	lea	rsi, .LC5[rip]				# загружаем "%d "
 	call	fprintf@PLT				# вызов fprintf()

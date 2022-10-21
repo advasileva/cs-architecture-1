@@ -1,13 +1,11 @@
-disasm:
-	bash ./scripts/disasm.sh main
-	bash ./scripts/disasm.sh form_array
+make-asm:
+	bash ./scripts/make-asm.sh main
+	bash ./scripts/make-asm.sh form_array
 
 test.asm:
-	bash ./scripts/compile-asm.sh
 	bash ./scripts/test-asm.sh
 
 test.c:
-	bash ./scripts/compile-c.sh
 	bash ./scripts/test-c.sh
 
 test:
@@ -16,21 +14,29 @@ test:
 	echo "Test C"
 	make test.c
 
-compare:
+compile.asm:
 	bash ./scripts/compile-asm.sh
+	echo "ASM compiled"
+
+compile.c:
 	bash ./scripts/compile-c.sh
+	echo "C compiled"
+
+compile:
+	make compile.asm
+	make compile.c
+
+compare:
 	bash ./scripts/compare.sh
 
 rand.asm:
-	bash ./scripts/compile-asm.sh
+	echo "Test ASM"
 	bash ./scripts/rand-asm.sh $n
 
 rand.c:
-	bash ./scripts/compile-c.sh
+	echo "Test C"
 	bash ./scripts/rand-c.sh $n
 
 rand:
-	echo "Test ASM"
 	make rand.asm $n
-	echo "Test C"
 	make rand.c $n

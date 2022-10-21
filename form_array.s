@@ -4,10 +4,10 @@
 form_array:							# метка функции "form_array"
 	push	rbp						# (пролог) сохраняем rbp на стек
 	mov	rbp, rsp					# записываем rsp в rbp
-	mov	r15d, edi					# кладём в регистр: finish.tv_sec
-	mov	r13, rsi					# кладём в регистр: finish.tv_sec
-	mov	r14, rdx					# кладём в регистр: finish.tv_sec
-	mov	r12d, 0						# кладём в регистр: i = 0
+	mov	r15d, edi					# записываем в регистр: n (int - 4 byte)
+	mov	r13, rsi					# записываем в регистр: A (int* - 8 byte)
+	mov	r14, rdx					# записываем в регистр: B (int* - 8 byte)
+	mov	r12d, 0						# записываем в регистр: i = 0 (int - 4 byte)
 	jmp	.L2							# переход к .L2
 .L6:								# метка ".L6" - тело цикла формирования B
 	mov	eax, r12d					# получаем итератор цикла i
