@@ -1,7 +1,6 @@
 	.intel_syntax noprefix			# указание интеловского синтаксиса
 	.text							# начало секции
 	.globl	timeDelta				# метка глобальности для линкера
-	.type	timeDelta, @function	# пометка как функции
 timeDelta:							# метка функции "timeDelta"
 	push	rbp						# (пролог) сохраняем rbp на стек
 	mov	rbp, rsp					# записываем rsp в rbp

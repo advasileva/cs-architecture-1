@@ -1,73 +1,65 @@
-# Замены:
-#  rbp[-4] -> r12d
-#  rbp[-32] -> r13
-#  rbp[-40] -> r14
-#  rbp[-20] -> r15
 	.intel_syntax noprefix			# указание интеловского синтаксиса
 	.text							# начало секции
 	.globl	form_array				# метка глобальности для линкера
 form_array:							# метка функции "form_array"
-	push	rbp
-	mov	rbp, rsp
-	mov	r15d, edi
-	mov	r13, rsi
-	mov	r14, rdx
-	mov	r12d, 0
-	jmp	.L2
-.L6:
-	mov	eax, r12d
-	lea	rdx, 0[0+rax*4]
-	mov	rax, r13
-	add	rax, rdx
-	mov	eax, DWORD PTR [rax]
-	test	eax, eax
-	jle	.L3
-	mov	eax, r12d
-	lea	rdx, 0[0+rax*4]
-	mov	rax, r14
-	add	rax, rdx
-	mov	DWORD PTR [rax], 2
-	jmp	.L4
-.L3:
-	mov	eax, r12d
-	lea	rdx, 0[0+rax*4]
-	mov	rax, r13
-	add	rax, rdx
-	mov	eax, DWORD PTR [rax]
-	test	eax, eax
-	jns	.L5
-	mov	eax, r12d
-	lea	rdx, 0[0+rax*4]
-	mov	rax, r13
-	add	rax, rdx
-	mov	edx, DWORD PTR [rax]
-	mov	eax, r12d
-	lea	rcx, 0[0+rax*4]
-	mov	rax, r14
-	add	rax, rcx
-	add	edx, 5
-	mov	DWORD PTR [rax], edx
-	jmp	.L4
-.L5:
-	mov	eax, r12d
-	lea	rdx, 0[0+rax*4]
-	mov	rax, r13
-	add	rax, rdx
-	mov	edx, r12d
-	movsx	rdx, edx
-	lea	rcx, 0[0+rdx*4]
-	mov	rdx, r14
-	add	rdx, rcx
-	mov	eax, DWORD PTR [rax]
-	mov	DWORD PTR [rdx], eax
-.L4:
-	add	r12d, 1
-.L2:
-	mov	eax, r12d
-	cmp	eax, r15d
-	jl	.L6
-	nop
-	nop
-	pop	rbp
-	ret
-	.size	form_array, .-form_array
+	push	rbp						# (пролог) сохраняем rbp на стек
+	mov	rbp, rsp					# записываем rsp в rbp
+	mov	r15d, edi					# кладём в регистр: finish.tv_sec
+	mov	r13, rsi					# кладём в регистр: finish.tv_sec
+	mov	r14, rdx					# кладём в регистр: finish.tv_sec
+	mov	r12d, 0						# кладём в регистр: i = 0
+	jmp	.L2							# переход к .L2
+.L6:								# метка ".L6" - тело цикла формирования B
+	mov	eax, r12d					# получаем итератор цикла i
+	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rax, r13					# получаем A
+	add	rax, rdx					# получаем A[i]
+	mov	eax, DWORD PTR [rax]		# записываем значение в eаx
+	test	eax, eax				# проверяем условие if (A[i] > 0)
+	jle	.L3							# если меньше или равно, то переход к .L2
+	mov	eax, r12d					# получаем итератор цикла i
+	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rax, r14					# получаем B
+	add	rax, rdx					# получаем B[i]
+	mov	DWORD PTR [rax], 2			# записываем 2 в B[i]
+	jmp	.L4							# переход к .L4
+.L3:								# метка ".L6" - тело цикла формирования B (ветка else if)
+	mov	eax, r12d					# получаем итератор цикла i
+	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rax, r13					# получаем A
+	add	rax, rdx					# получаем A[i]
+	mov	eax, DWORD PTR [rax]		# записываем значение в eаx
+	test	eax, eax				# проверяем условие if (A[i] < 0)
+	jns	.L5							# если нет знака, то переход к .L2
+	mov	eax, r12d					# получаем итератор цикла i
+	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rax, r13					# получаем A
+	add	rax, rdx					# получаем A[i]
+	mov	edx, DWORD PTR [rax]		# записываем значение в edx
+	mov	eax, r12d					# получаем итератор цикла i
+	lea	rcx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rax, r14					# получаем B
+	add	rax, rcx					# получаем B[i]
+	add	edx, 5						# прибавляем 5
+	mov	DWORD PTR [rax], edx		# записываем B[i]+5 в B[i]
+	jmp	.L4							# переход к .L4
+.L5:								# метка ".L6" - тело цикла формирования B (ветка else)
+	mov	eax, r12d					# получаем итератор цикла i
+	lea	rdx, 0[0+rax*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rax, r13					# получаем A
+	add	rax, rdx					# получаем A[i]
+	mov	edx, r12d					# записываем значение в edx
+	movsx	rdx, edx				# расширяем edx
+	lea	rcx, 0[0+rdx*4]				# хитро вычисляем адрес (rax*4)[0]
+	mov	rdx, r14					# получаем B
+	add	rdx, rcx					# получаем B[i]
+	mov	eax, DWORD PTR [rax]		# записываем значение в edx
+	mov	DWORD PTR [rdx], eax		# сохраяем значение в B[i]
+.L4:								# метка ".L4" - инкрементация счётчика
+	add	r12d, 1						# инкрементируем i
+.L2:								# метка ".L2" - начало цикла формирования B и конец программы
+	mov	eax, r12d					# получаем i
+	cmp	eax, r15d					# проверяем условие цикла (i < n)
+	jl	.L6							# переход к .L6 - тело цикла (если цикл не завершён)
+	pop	rbp							# (эпилог)
+	ret								# выход из функции
