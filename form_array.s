@@ -3,9 +3,9 @@
 #  rbp[-32] -> r13
 #  rbp[-40] -> r14
 #  rbp[-20] -> r15
-	.intel_syntax noprefix
-	.text
-	.globl	form_array
+	.intel_syntax noprefix			# указание интеловского синтаксиса
+	.text							# начало секции
+	.globl	form_array				# метка глобальности для линкера
 form_array:							# метка функции "form_array"
 	push	rbp
 	mov	rbp, rsp

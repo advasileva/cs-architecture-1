@@ -12,7 +12,7 @@
 
 Для удобства проверки структурировала отчёт по критериям
 
-### Структура проекта
+### Дерево проекта
 
 ```
 .
@@ -84,6 +84,20 @@
     ```
 	cdqe # знаковое расширение, входило 5 раз
     ```
+    ```
+    mov	QWORD PTR -8[rbp], rax
+	mov	rax, QWORD PTR -8[rbp]
+    ```
+    ```
+	mov	QWORD PTR -16[rbp], rax
+	mov	rax, QWORD PTR -16[rbp]
+    ```
+    ```
+    .size	timeDelta, .-timeDelta
+    ```
+    ```
+	mov	rdi, r9
+    ```
 
     Удалено из `form_array.s`:
     ```
@@ -106,6 +120,31 @@
     Стало:
     ```
     mov	rdi, QWORD PTR [rax]
+    ```
+
+    Было
+    ```
+    mov	r8, rdi
+	mov	rsi, r8
+    ```
+
+    ```
+    mov	rsi, rdi
+    ```
+
+    ```
+    mov	rax, QWORD PTR -80[rbp]
+	mov	rdx, QWORD PTR -72[rbp]
+	mov	rdi, QWORD PTR -96[rbp]
+	mov	rsi, QWORD PTR -88[rbp]
+	mov	rcx, rdx
+	mov	rdx, rax
+    ```
+    ```
+    mov	rdx, QWORD PTR -80[rbp]		# получаем start.tv_sec со стека
+	mov	rcx, QWORD PTR -72[rbp]		# получаем start.tv_nsec со стека
+	mov	rdi, QWORD PTR -96[rbp]		# получаем finish.tv_sec со стека
+	mov	rsi, QWORD PTR -88[rbp]		# получаем finish.tv_nsec со стека
     ```
 
 + *Модифицированная ассемблерная программа отдельно откомпилирована и скомпонована без использования опций отладки.*
