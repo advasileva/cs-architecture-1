@@ -37,12 +37,11 @@ rand.c:
 	echo "Test C"
 	bash ./scripts/rand-c.sh $n
 
-rand:
-	make rand.asm $n
-	make rand.c $n
-
 optimize:
 	bash ./scripts/optimize.sh
 
 compare.opt:
 	bash ./scripts/compare-opt.sh
+
+lines:
+	find . | xargs wc -l |& tail -1
