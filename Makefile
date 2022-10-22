@@ -1,4 +1,4 @@
-make-asm:
+make-asm: # Лучше не запускать, потому что будет обновлена ассемблерная программа
 	bash ./scripts/make-asm.sh main
 	bash ./scripts/make-asm.sh form_array
 
@@ -43,5 +43,5 @@ optimize:
 compare.opt:
 	bash ./scripts/compare-opt.sh
 
-lines:
+lines: # Если интересно, какого размера проект)
 	find . | xargs wc -l |& tail -1
