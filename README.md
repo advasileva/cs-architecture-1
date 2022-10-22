@@ -1,5 +1,16 @@
 # Архитектура вычислительных систем ИДЗ 1
 
+0. [**Задание**](#задание)
+0. [**Отчёт**](#отчёт)
+    + [*4 балла*](#4-балла)
+    + [*5 баллов*](#5-баллов)
+    + [*6 баллов*](#6-баллов)
+    + [*7 баллов*](#7-баллов)
+    + [*8 баллов*](#8-баллов)
+    + [*9 баллов*](#9-баллов)
+0. [**Дерево проекта**](#дерево-проекта)
+0. [**Инструкции по запуску**](#инструкции-по-запуску)
+
 ## Задание
 
 *Разработать программу, которая получает одномерный массив AN, после чего формирует из элементов массива A новый массив B по правилам, указанным в варианте, и выводит его. Память под массивы может выделяться статически, на стеке, автоматичеси по выбору разработчика. При решении задачи необходимо использовать подпрограммы для реализации ввода, вывода и формирования нового массива.*
@@ -8,46 +19,9 @@
 
 ## Отчёт
 
-**Делала на оценку 8 баллов**
+**Делала на оценку 9 баллов**
 
 Для удобства проверки структурировала отчёт по критериям
-
-### Дерево проекта
-
-```
-.
-├── asm.exe
-├── c.exe
-├── form_array.c
-├── form_array.s
-├── input
-├── main.c
-├── main.s
-├── Makefile
-├── output
-├── README.md
-├── scripts
-│   ├── compare.sh
-│   ├── compile-asm.sh
-│   ├── compile-c.sh
-│   ├── disasm.sh
-│   ├── rand-asm.sh
-│   ├── rand-c.sh
-│   ├── test-asm.sh
-│   └── test-c.sh
-├── stages
-│   ├── form_array.bare.s
-│   └── main.bare.s
-└── tests
-    ├── test1.in
-    ├── test1.out
-    ├── test2.in
-    ├── test2.out
-    ├── test3.in
-    ├── test3.out
-    ├── test4.in
-    └── test4.out
-```
 
 ### 4 балла
 
@@ -121,41 +95,41 @@
 
     Примеры оптимизации в `main.s`
 
-    Было:
-    ```
-    mov	rax, QWORD PTR [rax]
-	mov	rdi, rax
-    ```
-    Стало:
-    ```
-    mov	rdi, QWORD PTR [rax]
-    ```
+    +   Было:
+        ```
+        mov	rax, QWORD PTR [rax]
+        mov	rdi, rax
+        ```
+        Стало:
+        ```
+        mov	rdi, QWORD PTR [rax]
+        ```
 
-    Было:
-    ```
-    mov	r8, rdi
-	mov	rsi, r8
-    ```
-    Стало:
-    ```
-    mov	rsi, rdi
-    ```
-    Было:
-    ```
-    mov	rax, QWORD PTR -80[rbp]
-	mov	rdx, QWORD PTR -72[rbp]
-	mov	rdi, QWORD PTR -96[rbp]
-	mov	rsi, QWORD PTR -88[rbp]
-	mov	rcx, rdx
-	mov	rdx, rax
-    ```
-    Стало:
-    ```
-    mov	rdx, QWORD PTR -80[rbp]		# получаем start.tv_sec со стека
-	mov	rcx, QWORD PTR -72[rbp]		# получаем start.tv_nsec со стека
-	mov	rdi, QWORD PTR -96[rbp]		# получаем finish.tv_sec со стека
-	mov	rsi, QWORD PTR -88[rbp]		# получаем finish.tv_nsec со стека
-    ```
+    +   Было:
+        ```
+        mov	r8, rdi
+        mov	rsi, r8
+        ```
+        Стало:
+        ```
+        mov	rsi, rdi
+        ```
+    +   Было:
+        ```
+        mov	rax, QWORD PTR -80[rbp]
+        mov	rdx, QWORD PTR -72[rbp]
+        mov	rdi, QWORD PTR -96[rbp]
+        mov	rsi, QWORD PTR -88[rbp]
+        mov	rcx, rdx
+        mov	rdx, rax
+        ```
+        Стало:
+        ```
+        mov	rdx, QWORD PTR -80[rbp]		# получаем start.tv_sec со стека
+        mov	rcx, QWORD PTR -72[rbp]		# получаем start.tv_nsec со стека
+        mov	rdi, QWORD PTR -96[rbp]		# получаем finish.tv_sec со стека
+        mov	rsi, QWORD PTR -88[rbp]		# получаем finish.tv_nsec со стека
+        ```
 
 + *Модифицированная ассемблерная программа отдельно откомпилирована и скомпонована без использования опций отладки.*
 
@@ -167,38 +141,45 @@
 
     Результаты прогонов (в скрипте есть печать diff, поэтому результаты работы программ на С и на ассемблере идентичны и совпадают с эталонным ответом)
     ```
+    $ make test
+    echo "Test ASM"
     Test ASM
+    make test.asm
+    bash ./scripts/test-asm.sh
     Test 1
-    Time delta: 30268146 ns
+    Time delta: 30573650 ns
 
 
     Test 2
-    Time delta: 51926711 ns
+    Time delta: 65420753 ns
 
 
     Test 3
-    Time delta: 3205726328 ns
+    Time delta: 6087599994 ns
 
 
     Test 4
-    Time delta: 10990702124 ns
+    Time delta: 10279693573 ns
 
 
+    echo "Test C"
     Test C
+    make test.c
+    bash ./scripts/test-c.sh
     Test 1
-    Time delta: 29921297 ns
+    Time delta: 58242082 ns
 
 
     Test 2
-    Time delta: 69089190 ns
+    Time delta: 89953778 ns
 
 
     Test 3
-    Time delta: 6073340039 ns
+    Time delta: 6184423906 ns
 
 
     Test 4
-    Time delta: 11177547345 ns
+    Time delta: 14661388234 ns
     ```
 
 + *Сформировать отчет, описывающий результаты тестовых прогонов и используемых опций компиляции и/или описания проведенных модификаций.*
@@ -235,8 +216,8 @@
     ```
     Пример комментария, описывающего перенос возвращаемого результата:
     ```
-	call	fopen@PLT				# вызываем fopen()
-	mov	QWORD PTR -24[rbp], rax		# output = fopen(argv[3], "w");
+	call	fopen@PLT               # вызываем fopen()
+	mov	QWORD PTR -24[rbp], rax     # output = fopen(argv[3], "w");
     ```
 
 + *В функциях для формальных параметров добавить комментарии, описывающие связь между параметрами языка Си и регистрами (стеком).*
@@ -433,3 +414,104 @@
 + *Представить полученные данные в отчете для разных вариантов тестовых прогонов*
 
     Информация добавлена в отчёт
+
+
+### 9 баллов
+
++ *Используя опции оптимизации по скорости, сформировать из модифицированной программы на C исходный код ассемблере. Провести сравнительный анализ с предыдущими ассемблерными программами по размеру ассемблерного кода, размеру исполняемого файла и производительности.*
+
+    Для оптимизации по скорости использовались флаги `-O0` `-O1` `-O2` `-O3` `-Ofast`, также для сравнения представлены программа, скомпилированная без флагов оптимизации и опитимизированная мной программа (последняя версия с комментариями)
+
+    Скрипт для формирования программ с использованием опций оптимизации находится в `scripts/optimize.sh`
+
+    Результат сравнительного анализа:
+    ```
+    $ make compare.opt
+    bash ./scripts/compare-opt.sh
+    ~~~Test non-optimization~~~
+    Number of lines: 350
+    Size in bytes: 6118
+    Time delta: 17538259543 ns
+
+    ~~~Test o0-optimization~~~
+    Number of lines: 350
+    Size in bytes: 6118
+    Time delta: 16984224436 ns
+
+    ~~~Test o1-optimization~~~
+    Number of lines: 251
+    Size in bytes: 4285
+    Time delta: 2960131342 ns
+
+    ~~~Test o2-optimization~~~
+    Number of lines: 268
+    Size in bytes: 4638
+    Time delta: 2640930718 ns
+
+    ~~~Test o3-optimization~~~
+    Number of lines: 379
+    Size in bytes: 6382
+    Time delta: 1562916418 ns
+
+    ~~~Test ofast-optimization~~~
+    Number of lines: 379
+    Size in bytes: 6382
+    Time delta: 1507756943 ns
+
+    ~~~Test os-optimization~~~
+    Number of lines: 234
+    Size in bytes: 3999
+    Time delta: 14576964971 ns
+
+    ~~~Test my-optimization~~~
+    Number of lines: 267
+    Size in bytes: 18120
+    Time delta: 8290021364 ns
+    ```
+
++ *Аналогично, используя опции оптимизации по размеру, сформировать код на ассемблере. Провести сравнительный анализ с предыдущими ассемблерными программами по размеру ассемблерного кода, размеру исполняемого файла и производительности.*
+
+    Для оптимизации по размеру использовалась опция `-0s`, полный отчёт представлен в предыдущем пункте
+
++ *Представить в отчете полученные результаты, дополнив данные представленные в предыдущем отчете.*
+
+    Результаты представлены в отчёте
+
+## Дерево проекта
+
+```
+.
+├── asm.exe
+├── c.exe
+├── form_array.c
+├── form_array.s
+├── input
+├── main.c
+├── main.s
+├── Makefile
+├── output
+├── README.md
+├── scripts
+│   ├── compare.sh
+│   ├── compile-asm.sh
+│   ├── compile-c.sh
+│   ├── disasm.sh
+│   ├── rand-asm.sh
+│   ├── rand-c.sh
+│   ├── test-asm.sh
+│   └── test-c.sh
+├── stages
+│   ├── form_array.bare.s
+│   └── main.bare.s
+└── tests
+    ├── test1.in
+    ├── test1.out
+    ├── test2.in
+    ├── test2.out
+    ├── test3.in
+    ├── test3.out
+    ├── test4.in
+    └── test4.out
+```
+
+## Инструкции по запуску

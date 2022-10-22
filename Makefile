@@ -40,3 +40,9 @@ rand.c:
 rand:
 	make rand.asm $n
 	make rand.c $n
+
+optimize:
+	bash ./scripts/optimize.sh
+
+compare.opt:
+	bash ./scripts/compare-opt.sh
